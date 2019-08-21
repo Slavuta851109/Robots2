@@ -26,5 +26,7 @@ namespace Robots.Domain
         }
 
         public Vertex GetCurrentVertex() => _currentVertex;
+
+        public int GetCleanedVertices() => _visitedVertices.Count;
     }
 }
