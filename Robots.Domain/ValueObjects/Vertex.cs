@@ -3,7 +3,7 @@ using Robots.Domain.Exceptions;
 
 namespace Robots.Domain
 {
-    public struct Vertex
+    public struct Vertex : IEquatable<Vertex>
     {
         public int X { get; }
         public int Y { get; }
@@ -27,6 +27,28 @@ namespace Robots.Domain
             }
         }
 
-        // TODO: GetHashCode
+        #region Equality
+
+        public bool Equals(Vertex other)
+        {
+            return X == other.X && Y == other.Y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            return obj is Vertex other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
+        }
+
+        #endregion
     }
 }

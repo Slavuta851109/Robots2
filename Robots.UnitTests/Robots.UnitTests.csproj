@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Robots.Application\Robots.Application.csproj" />
     <ProjectReference Include="..\Robots.Domain\Robots.Domain.csproj" />
-    <ProjectReference Include="..\Robots.Infrastructure\Robots.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

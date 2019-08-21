@@ -18,8 +18,13 @@ namespace Robots.Domain
         public void Move(
             [NotNull] CommandMove command)
         {
-            // TODO: do logic here
-
+            for (int i = 0; i < command.Steps; i++)
+            {
+                _currentVertex = VisitedVertexFactory.Create(_currentVertex, command.Direction);
+                _visitedVertices.Add(_currentVertex);
+            }
         }
+
+        public Vertex GetCurrentVertex() => _currentVertex;
     }
 }
