@@ -22,3 +22,8 @@
         Robot.Move(Command command)
         // includes current
         // includes passed
+
+== TODO ==
+	*! Add Dependency Injection
+	* Change input validation model to DataAnnotations.
+	* Add input validation to Application level.

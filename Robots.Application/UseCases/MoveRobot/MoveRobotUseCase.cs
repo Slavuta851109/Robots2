@@ -7,7 +7,7 @@ namespace Robots.Application.UseCases
     {
         public MoveResponse Execute(MoveRequest request)
         {
-            var robot = new Robot(new Vertex(request.PositionX, request.PositionY));
+            var robot = new Robot(request.StartPosition);
             foreach (var command in request.Commands)
             {
                 robot.Move(command);
