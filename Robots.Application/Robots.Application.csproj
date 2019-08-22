@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Decorators\" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="SimpleInjector" Version="4.6.2" />
   </ItemGroup>
 
 </Project>

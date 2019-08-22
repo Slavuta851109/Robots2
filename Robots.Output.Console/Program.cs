@@ -1,17 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Robots.Application;
 using Robots.Application.UseCases;
 using Robots.Domain;
+using Robots.Output.AConsole.Infrastructure;
+
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
 
 namespace Robots.Output.AConsole
 {
     class Program
     {
+        private static readonly Container _container = new Container();
+
         private const string COMMAND_REPEAT = "R";
 
         static void Main(string[] args)
+        {
+            SetupCompositionRoot(_container);
+
+            Execute();
+        }
+
+        private static void Execute()
         {
             string input = COMMAND_REPEAT;
             while (string.Equals(COMMAND_REPEAT, input, StringComparison.OrdinalIgnoreCase))
@@ -23,10 +36,13 @@ namespace Robots.Output.AConsole
                     (int X, int Y) startCoordinate = Get_StartingCoordinates();
                     IEnumerable<(DirectionEnum Direction, int Steps)> commands = Get_MoveCommands(numberOfCommands);
 
-                    var moveRequest = new MoveRequest(startCoordinate.X, startCoordinate.Y, commands);
-                    var useCase = new MoveRobotUseCase();
-                    var response = useCase.Execute(moveRequest);
-                    Console.WriteLine($"Cleaned: {response.CleanedVertices}");
+                    using (AsyncScopedLifestyle.BeginScope(_container))
+                    {
+                        var moveRequest = new MoveRequest(startCoordinate.X, startCoordinate.Y, commands);
+                        var useCase = _container.GetInstance<IUseCase<MoveRequest, MoveResponse>>();
+                        var response = useCase.Execute(moveRequest);
+                        Console.WriteLine($"Cleaned: {response.CleanedVertices}");
+                    }
                 }
                 finally
                 {
@@ -67,6 +83,13 @@ namespace Robots.Output.AConsole
             }
 
             return result;
+        }
+
+        private static void SetupCompositionRoot(Container container)
+        {
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            Bootstrapper.Bootstrap(container);
+            container.Verify();
         }
     }
 }
