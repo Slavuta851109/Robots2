@@ -25,4 +25,3 @@
 
 == TODO ==
 	* Change input validation model to DataAnnotations.
-	* Add input validation to Application level.
